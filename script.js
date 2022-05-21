@@ -5,10 +5,10 @@ var s2 = false;
 var isMenu = false;
 
 let con1 = document.getElementsByClassName("container")[0];
-con1.style.backgroundImage = 'url("background.jpg")';
+
 
 let con2 = document.getElementsByClassName("container2")[0];
-con2.style.backgroundColor = "rgba(255,255,255,0.3)";
+
 
 let menu = document.getElementsByClassName("menu")[0];
 
@@ -40,6 +40,8 @@ function hideMenu() {
 }
 
 function Menu() {
+    con1.style.animationTimingFunction = "ease-in-out";
+    con2.style.animationTimingFunction = "ease-in-out";
     if (fullscreen && s1) {
         console.log("fullscreen and s1")
         
@@ -91,31 +93,28 @@ function forward(){
    
         con2.style.animationName = "movebackward";
         con2.style.animationDuration = "1s";
+        con2.style.animationTimingFunction = "liner";
+        
         con1.style.animationName = "moveforward2";
         con1.style.animationDuration = "1s";
+        con1.style.animationTimingFunction = "liner";
 
-        setTimeout(function () {
-            con2.style.backgroundImage = "none";
-            con2.style.backgroundColor = "rgba(255,255,255,0.3)";
-            con1.style.backgroundImage = 'url("background.jpg")';
-        }, 550);
-    }
+        
+}
         
 function backward(){
     
         con1.style.animationName = "movebackward";
         con1.style.animationDuration = "1s";
+        con1.style.animationTimingFunction = "liner";
         con2.style.animationName = "moveforward2";
         con2.style.animationDuration = "1s";
+        con1.style.animationTimingFunction = "liner";
 
-        setTimeout(function () {
-            con1.style.backgroundImage = "none";
-            con1.style.backgroundColor = "rgba(255,255,255,0.3)";
-            con2.style.backgroundImage = "linear-gradient(45deg, blue, violet)";
-        }, 550); 
 
      
 }
+
 document.addEventListener("keydown", function (e) {
     if (isMenu) {
     if (e.code == "Space") {
@@ -183,11 +182,7 @@ function Schermo1(){
         con1.style.animationName = "moveforward2";
         con1.style.animationDuration = "1s";
 
-        setTimeout(function () {
-            con2.style.backgroundImage = "none";
-            con2.style.backgroundColor = "rgba(255,255,255,0.3)";
-            con1.style.backgroundImage = 'url("background.jpg")';
-        }, 550);
+       
 
     setTimeout(function () {
         con2.style.zIndex = "49";
@@ -222,11 +217,8 @@ function Schermo2(){
         con2.style.animationName = "moveforward2";
         con2.style.animationDuration = "1s";
 
-        setTimeout(function () {
-            con1.style.backgroundImage = "none";
-            con1.style.backgroundColor = "rgba(255,255,255,0.3)";
-            con2.style.backgroundImage = "linear-gradient(45deg, blue, violet)";
-        }, 550);
+       
+        
         
     setTimeout(function () {
 
