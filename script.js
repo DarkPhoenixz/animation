@@ -2,6 +2,8 @@ var fullscreen = true;
 var s1 = true;
 var s2 = false;
 
+var isMenu = false;
+
 let con1 = document.getElementsByClassName("container")[0];
 con1.style.backgroundImage = 'url("background.jpg")';
 
@@ -13,30 +15,34 @@ let menu = document.getElementsByClassName("menu")[0];
 let schermo1 = document.getElementById("a");
 let schermo2 = document.getElementById("b");
 
+let arrow = document.getElementById("selector");
+
 function displayMenu() {
+    isMenu = true;
     schermo1.style.animationName = "appear1";
     schermo1.style.animationDelay = "0s"
     schermo1.style.animationFillMode = "forwards";
     schermo2.style.animationName = "appear2";
     schermo2.style.animationDelay = "0.3s"
     schermo2.style.animationFillMode = "forwards";
+    arrowIn();
 }
 
 function hideMenu() {
+    isMenu = false;
     schermo1.style.animationName = "disappear1";
     schermo1.style.animationDelay = "0.3s"
     schermo1.style.animationFillMode = "backwards";
     schermo2.style.animationName = "disappear2";
     schermo2.style.animationDelay = "0s"
-
+    arrowOut();
+    
 }
 
-document.getElementsByTagName("button")[0].addEventListener("click", function(e) {
-
-    e.preventDefault();
-
+function Menu() {
     if (fullscreen && s1) {
         console.log("fullscreen and s1")
+        
         con1.style.animationName = "move";
         con2.style.animationName = "move2";
 
@@ -46,6 +52,7 @@ document.getElementsByTagName("button")[0].addEventListener("click", function(e)
     }
 
     else if (fullscreen && s2) {
+        
         console.log("fullscreen and s2")
         con1.style.animationName = "move2";
         con2.style.animationName = "move";
@@ -56,8 +63,9 @@ document.getElementsByTagName("button")[0].addEventListener("click", function(e)
     }
 
     else if(!fullscreen && s1){
-        console.log("!fullscreen and s1")
 
+        console.log("!fullscreen and s1")
+        
         hideMenu();
         
         setTimeout(function () {
@@ -68,21 +76,104 @@ document.getElementsByTagName("button")[0].addEventListener("click", function(e)
     }
     else if(!fullscreen && s2){
         console.log("!fullscreen and s2")
-        
-        hideMenu();
 
+        hideMenu();
+       
         setTimeout(function () {
             con1.style.animationName = "moveback2";
             con2.style.animationName = "moveback";
         }, 600);
         fullscreen = true;
     }
+}
+
+function forward(){
+   
+        con2.style.animationName = "movebackward";
+        con2.style.animationDuration = "1s";
+        con1.style.animationName = "moveforward2";
+        con1.style.animationDuration = "1s";
+
+        setTimeout(function () {
+            con2.style.backgroundImage = "none";
+            con2.style.backgroundColor = "rgba(255,255,255,0.3)";
+            con1.style.backgroundImage = 'url("background.jpg")';
+        }, 550);
+    }
+        
+function backward(){
     
+        con1.style.animationName = "movebackward";
+        con1.style.animationDuration = "1s";
+        con2.style.animationName = "moveforward2";
+        con2.style.animationDuration = "1s";
+
+        setTimeout(function () {
+            con1.style.backgroundImage = "none";
+            con1.style.backgroundColor = "rgba(255,255,255,0.3)";
+            con2.style.backgroundImage = "linear-gradient(45deg, blue, violet)";
+        }, 550); 
+
+     
+}
+document.addEventListener("keydown", function (e) {
+    if (isMenu) {
+    if (e.code == "Space") {
+        e.preventDefault();
+        if (arrow.style.animationName == "arrowDown" || arrow.style.animationName == "ArrowInToDown")
+            Schermo2();
+        else if (arrow.style.animationName == "arrowUp" || arrow.style.animationName == "ArrowInToUp")
+            Schermo1();
+     }
+    if (e.code == "ArrowUp") {
+        e.preventDefault();
+        arrowUpDown();
+        forward()
+        arrow.style.animationName = "arrowUp";
+        
+    }
+    else if (e.code == "ArrowDown") {
+        e.preventDefault();
+        arrowUpDown();
+        backward()
+        arrow.style.animationName = "arrowDown";
+    }
+}
 })
 
+function arrowUpDown() {
+    arrow.style.opacity = "1";
+    arrow.style.animationDuration = "0.3s";
+    arrow.style.animationDelay = "0s";
+}
 
-schermo1.addEventListener("click", function (e) {
+function arrowIn(){
+    if (s1) arrow.style.animationName = "arrowInToUp";
+    else if (s2) arrow.style.animationName = "arrowInToDown"
+    arrow.style.animationDuration = "0.5s";
+    arrow.style.animationDelay = "0.3s";
+    arrow.style.animationFillMode = "both";
+}
+
+function arrowOut(){
+    if (arrow.style.animationName == "arrowUp" || arrow.style.animationName == "arrowInToUp") 
+    arrow.style.animationName = "arrowOutFromUp";
+
+    else if (arrow.style.animationName == "arrowDown" || arrow.style.animationName == "arrowInToDown") 
+    arrow.style.animationName = "arrowOutFromDown";
+
+    arrow.style.animationDuration = "0.5s";
+    arrow.style.animationDelay = "0.3s";
+    arrow.style.animationFillMode = "both";
+
+}
+
+document.getElementById("button").addEventListener("click", function(e) {
     e.preventDefault();
+    Menu();
+})
+
+function Schermo1(){
     hideMenu();
 
     if (!s1 && !fullscreen) {
@@ -121,10 +212,9 @@ schermo1.addEventListener("click", function (e) {
         }, 600);    
     }
 
-})
+}
 
-schermo2.addEventListener("click", function (e) {
-    e.preventDefault();
+function Schermo2(){
     hideMenu();
     if (!s2 && !fullscreen) {
         con1.style.animationName = "movebackward";
@@ -162,4 +252,15 @@ schermo2.addEventListener("click", function (e) {
         }, 600);
     }
 
+}
+
+schermo1.addEventListener("click", function (e) {
+    e.preventDefault();
+    Schermo1();
 })
+
+schermo2.addEventListener("click", function (e) {
+    e.preventDefault();
+    Schermo2();
+})
+
