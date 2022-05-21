@@ -16,6 +16,7 @@ html, body {
     widht: 300px;
     height: 300px;
     background-color: grey;
+    position: relative;
 }
     
 
